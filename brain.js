@@ -40,7 +40,7 @@ global.data = new Object({
     allThreadID: new Array()
 });
 
-global.utils = require("./utils");
+
 global.nodemodule = new Object();
 global.config = new Object();
 global.configModule = new Object();
