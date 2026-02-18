@@ -132,11 +132,11 @@ module.exports = async function startPriyansh(api, updateStatus) {
 
         // ৩. কমান্ড লোড
         updateStatus(70, "Loading Commands...");
-        const listCommand = readdirSync(global.client.mainPath + '/Priyansh/cmd').filter(command => command.endsWith('.js') && !command.includes('example') && !global.config.commandDisabled.includes(command));
+        const listCommand = readdirSync(global.client.mainPath + '/script/cmd').filter(command => command.endsWith('.js') && !command.includes('example') && !global.config.commandDisabled.includes(command));
 
         for (const command of listCommand) {
             try {
-                var module = require(global.client.mainPath + '/Priyansh/cmd/' + command);
+                var module = require(global.client.mainPath + '/script/cmd/' + command);
                 if (!module.config || !module.run || !module.config.commandCategory) throw new Error(global.getText('priyansh', 'errorFormat'));
                 if (global.client.commands.has(module.config.name || '')) throw new Error(global.getText('priyansh', 'nameExist'));
 
@@ -193,10 +193,10 @@ module.exports = async function startPriyansh(api, updateStatus) {
 
         // ৪. ইভেন্ট লোড
         updateStatus(80, "Loading Events...");
-        const events = readdirSync(global.client.mainPath + '/Priyansh/events').filter(event => event.endsWith('.js') && !global.config.eventDisabled.includes(event));
+        const events = readdirSync(global.client.mainPath + '/script/events').filter(event => event.endsWith('.js') && !global.config.eventDisabled.includes(event));
         for (const ev of events) {
             try {
-                var event = require(global.client.mainPath + '/Priyansh/events/' + ev);
+                var event = require(global.client.mainPath + '/script/events/' + ev);
                 if (!event.config || !event.run) throw new Error(global.getText('priyansh', 'errorFormat'));
                 if (global.client.events.has(event.config.name) || '') throw new Error(global.getText('priyansh', 'nameExist'));
 
