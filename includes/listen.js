@@ -3,8 +3,7 @@ module.exports = function ({ api, models }) {
   const Users = require("./controllers/users")({ models, api });
   const Threads = require("./controllers/threads")({ models, api });
   const Currencies = require("./controllers/currencies")({ models });
-  const logger = require("../utils/log.js");
-
+  
   const isBlocked = require("./wlt"); // ✅ whitelist checker import
 
   ///////////////////////////////////////
@@ -13,7 +12,8 @@ module.exports = function ({ api, models }) {
 
   (async function () {
     try {
-      logger(global.getText('listen', 'startLoadEnvironment'), '[ Priyansh Rajput ]');
+      // listen.startLoadEnvironment = Proceed to load the environment variable ...
+      console.log('[ Priyansh Rajput ] Proceed to load the environment variable ...');
 
       let threads = await Threads.getAll(),
           users = await Users.getAll(['userID', 'name', 'data']),
@@ -32,7 +32,8 @@ module.exports = function ({ api, models }) {
           global.data.threadAllowNSFW.push(idThread);
       }
 
-      logger.loader(global.getText('listen', 'loadedEnvironmentThread'));
+      // listen.loadedEnvironmentThread = Loaded thread environment variable successfully
+      console.log('Loaded thread environment variable successfully');
 
       for (const dataU of users) {
         const idUsers = String(dataU.userID);
@@ -48,14 +49,19 @@ module.exports = function ({ api, models }) {
       for (const dataC of currencies)
         global.data.allCurrenciesID.push(String(dataC.userID));
 
-      logger.loader(global.getText('listen', 'loadedEnvironmentUser'));
-      logger(global.getText('listen', 'successLoadEnvironment'), '[ Priyansh ]');
+      // listen.loadedEnvironmentUser = Loaded user environment variable successfully
+      console.log('Loaded user environment variable successfully');
+      
+      // listen.successLoadEnvironment = Loaded environment variable successfully
+      console.log('[ Priyansh ] Loaded environment variable successfully');
+
     } catch (error) {
-      return logger.loader(global.getText('listen', 'failLoadEnvironment', error), 'error');
+      // listen.failLoadEnvironment = Can't load environment variable, error: %1
+      return console.error(`Can't load environment variable, error: ${error}`);
     }
   })();
 
-  logger(`[ ${global.config.PREFIX} ] • ${(!global.config.BOTNAME) ? "" : global.config.BOTNAME}`, "[ Priyansh Rajput ]");
+  console.log(`[ Priyansh Rajput ] [ ${global.config.PREFIX} ] • ${(!global.config.BOTNAME) ? "" : global.config.BOTNAME}`);
 
   ///////////////////////////////////////////////
   //========= Require all handle need =========//
@@ -73,7 +79,7 @@ module.exports = function ({ api, models }) {
   /////////////////////////////////////////////////
 
   return (event) => {
-    if (isBlocked(event)) return; // ✅ whitelist block check (সবচেয়ে উপরে)
+    if (isBlocked(event)) return; // ✅ whitelist block check
 
     switch (event.type) {
       case "message":

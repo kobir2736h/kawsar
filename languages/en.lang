@@ -1,7 +1,3 @@
-# If you want to move down the line, please use \n. e.g: Priyanshu\nPriyansh.
-# After changed, you have to restart the bot to use.
-# Put the # character at the beginning of each sentence if you don't want the code to run those lines. 
-# Thanks to https://www.facebook.com/duong.than.net for translate to English!
 
 # Priyansh.js 
 
@@ -56,17 +52,6 @@ threads.needObject=Have to be an Object
 users.needObjectOrArray=Have to be an Array or an Object or maybe both
 users.needObject=Have to be an Object
 
-# includes/handle/handleCommand.js
-
-handleCommand.commandNotExist=𝐖𝐫𝐨𝐧𝐠 𝐂𝐨𝐦𝐦𝐚𝐧𝐝! 𝐓𝐫𝐲 ➤ %1
-handleCommand.commandThreadBanned=Your thread is unable to use command "%1"
-handleCommand.commandUserBanned=You are unable to use command "%1"
-handleCommand.threadNotAllowNSFW=Your thread is not allowed to use NSFW commands
-handleCommand.cantGetInfoThread=Can't get your thread's info, error: %1
-handleCommand.permssionNotEnough=📑Ye command 📝Sirf Mere Øwner Ko Hi Allow Hai ✋❌ "%1"
-handleCommand.cantSetMessageReaction=Having some unexpected error at setMessageReaction, error: %1
-handleCommand.executeCommand=[ %1 ] Command used: %2 by user: %3 at thread: %4 | Args included: %5 | Processing time: %6ms
-handleCommand.commandError=Having some unexpected error when using command %1, error: %2
 
 # includes/handle/handleCommandEvent.js
 
@@ -77,38 +62,10 @@ handleCommandEvent.moduleError=Having some unexpected error when using command %
 handleCreateDatabase.newThread=new thread: %1
 handleCreateDatabase.newUser=new user %1
 
-# includes/handle/handleEvent.js
 
-handleEvent.executeEvent=[ %1 ] Event was executed: %2 at thread: %3 | Processing time: %4ms
-handleEvent.eventError=Having some error when executing event %1, error: %12
-
-# includes/handle/handleReaction.js
-
-handleReaction.missingValue=Missing value to respond your problem
-handleReaction.executeError=Having some error when responding to your problem, error: %1
-
-# includes/handle/handleReply.js
-
-handleReply.missingValue=Missing value to respond your problem
-handleReply.executeError=Having some error when responding your problem, error: %1
 
 # includes/handle/handleSchedule.js
 
 handleSchedule.exectuteError=Having some error when schedule at module %1, error: %2
 
-# utils/index.js
 
-utils.throwError=ℹ️ [!] Ye Command Kaam Nahi Kar Raha Koi Dosra Try Karo, %1help %2 Use For More usage 😉 ℹ️
-
-# updater.js
-
-updater.latestVersion=You are using the latest version
-updater.cantFindVersion=You are using an undefined version (%1), please check your package.json file again
-updater.newVersions=There are %1 new versions to update, starting to update...
-updater.updateSuccess=Update successfully%1
-updater.configChanged=The %1 has been changed, please check your config.json file again
-updater.installingPackages=Installing dependencies for bot...
-updater.installSuccess=Installed dependencies successfully, restart the bot to use the new version
-updater.backupSuccess=Successfully backed up changed files, see in the %1 folder
-updater.restartToApply=. Restart the bot to apply the new version
-updater.skipFile=There is a new version of the %1 file, but you have skipped this file during the update process with the comment %2 in this file

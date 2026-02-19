@@ -3,7 +3,7 @@ const path = require("path");
 const freezePath = path.join(__dirname, "..", "..", "freeze.lock");
 
 module.exports = function ({ api, models, Users, Threads, Currencies }) {
-    const logger = require("../../utils/log.js");
+    // logger require বাদ দেওয়া হলো
     return function ({ event }) {
         if (fs.existsSync(freezePath)) {
             // Freeze mode: কোনো ইভেন্ট হ্যান্ডল করা হবে না
@@ -16,38 +16,29 @@ module.exports = function ({ api, models, Users, Threads, Currencies }) {
         senderID = String(senderID);
         threadID = String(threadID);
         if ((allowInbox == false && senderID == threadID)) return;
+        
         for (const eventReg of eventRegistered) {
             const cmd = commands.get(eventReg);
-            var getText2;
-
-            if (cmd.languages && typeof cmd.languages == 'object') {
-                getText2 = (...values) => {
-                    const commandModule = cmd.languages || {};
-                    if (!commandModule.hasOwnProperty(global.config.language))
-                        return api.sendMessage(global.getText('handleCommand','notFoundLanguage', cmd.config.name), threadID, messengeID);
-                    var lang = cmd.languages[global.config.language][values[0]] || '';
-                    for (var i = values.length - 1; i >= 0; i--) {
-                        const expReg = RegExp('%' + (i + 1), 'g');
-                        lang = lang.replace(expReg, values[i]);
-                    }
-                    return lang;
-                };
-            } else {
-                getText2 = () => {};
-            }
+            
+            // getText এর লজিক বাদ দিয়ে সিম্পল ফাংশন
+            var getText2 = () => {};
 
             try {
-                const Obj = {};
-                Obj.event = event;
-                Obj.api = api;
-                Obj.models = models;
-                Obj.Users = Users;
-                Obj.Threads = Threads;
-                Obj.Currencies = Currencies;
-                Obj.getText = getText2;
+                const Obj = {
+                    event,
+                    api,
+                    models,
+                    Users,
+                    Threads,
+                    Currencies,
+                    getText: getText2
+                };
+                
                 if (cmd) cmd.handleEvent(Obj);
             } catch (error) {
-                logger(global.getText('handleCommandEvent', 'moduleError', cmd.config.name), 'error');
+                // handleCommandEvent.moduleError টেক্সট টি এখানে বসানো হলো
+                // %1 = cmd.config.name, %2 = error
+                console.error(`Having some unexpected error when using command ${cmd.config.name}, error: ${error}`);
             }
         }
     };

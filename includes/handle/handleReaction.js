@@ -1,11 +1,10 @@
 module.exports = function ({ api, models, Users, Threads, Currencies }) {
     return function ({ event }) {
         const { handleReaction, commands } = global.client;
-        const { messageID, threadID, reaction } = event; // 'reaction' যোগ করা হয়েছে
+        const { messageID, threadID, reaction } = event; 
 
-        // এইখানে নতুন কোড যোগ করা হয়েছে
+        // 😡 ইমোজি থাকলে মেসেজ আনসেন্ড করার লজিক
         if (reaction === '😡') {
-            // যদি ইমোজিটি '😡' হয়, তাহলে মেসেজটি আনসেন্ড করবে
             return api.unsendMessage(messageID);
         }
 
@@ -15,36 +14,29 @@ module.exports = function ({ api, models, Users, Threads, Currencies }) {
             const indexOfMessage = handleReaction[indexOfHandle];
             const handleNeedExec = commands.get(indexOfMessage.name);
 
-            if (!handleNeedExec) return api.sendMessage(global.getText('handleReaction', 'missingValue'), threadID, messageID);
+            // handleReaction.missingValue = Missing value to respond your problem
+            if (!handleNeedExec) return api.sendMessage("Missing value to respond your problem", threadID, messageID);
+            
             try {
-                var getText2;
-                if (handleNeedExec.languages && typeof handleNeedExec.languages == 'object')
-                	getText2 = (...value) => {
-                    const react = handleNeedExec.languages || {};
-                    if (!react.hasOwnProperty(global.config.language))
-                    	return api.sendMessage(global.getText('handleCommand', 'notFoundLanguage', handleNeedExec.config.name), threadID, messageID);
-                    var lang = handleNeedExec.languages[global.config.language][value[0]] || '';
-                    for (var i = value.length; i > 0x2 * -0xb7d + 0x2111 * 0x1 + -0xa17; i--) {
-                        const expReg = RegExp('%' + i, 'g');
-                        lang = lang.replace(expReg, value[i]);
-                    }
-                    return lang;
+                // getText এর জটিল লজিক বাদ দিয়ে সিম্পল ফাংশন
+                var getText2 = () => {};
+
+                const Obj = {
+                    api,
+                    event,
+                    models,
+                    Users,
+                    Threads,
+                    Currencies,
+                    handleReaction: indexOfMessage,
+                    getText: getText2
                 };
-                else getText2 = () => {};
-                const Obj = {};
-                Obj.api= api
-                Obj.event = event
-                Obj.models = models
-                Obj.Users = Users
-                Obj.Threads = Threads
-                Obj.Currencies = Currencies
-                Obj.handleReaction = indexOfMessage
-                Obj.models= models
-                Obj.getText = getText2
+                
                 handleNeedExec.handleReaction(Obj);
                 return;
             } catch (error) {
-                return api.sendMessage(global.getText('handleReaction', 'executeError', error), threadID, messageID);
+                // handleReaction.executeError = Having some error when responding to your problem, error: %1
+                return api.sendMessage(`Having some error when responding to your problem, error: ${error}`, threadID, messageID);
             }
         }
     };

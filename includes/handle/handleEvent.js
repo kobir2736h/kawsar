@@ -3,8 +3,8 @@ const path = require("path");
 const freezePath = path.join(__dirname, "..", "..", "freeze.lock");
 
 module.exports = function ({ api, models, Users, Threads, Currencies }) {
-    const logger = require("../../utils/log.js");
-    const moment = require("moment-timezone");  // moment-timezone ব্যবহার করলাম, কারণ timezone দরকার
+    // logger require বাদ দেওয়া হলো
+    const moment = require("moment-timezone");
 
     return function ({ event }) {
         if (fs.existsSync(freezePath)) {
@@ -34,10 +34,14 @@ module.exports = function ({ api, models, Users, Threads, Currencies }) {
                     Obj.Threads = Threads;
                     Obj.Currencies = Currencies;
                     eventRun.run(Obj);
-                    if (DeveloperMode === true)
-                        logger(global.getText('handleEvent', 'executeEvent', time, eventRun.config.name, threadID, Date.now() - timeStart), '[ Event ]');
+                    
+                    if (DeveloperMode === true) {
+                        // handleEvent.executeEvent=[ %1 ] Event was executed: %2 at thread: %3 | Processing time: %4ms
+                        console.log(`[ ${time} ] Event was executed: ${eventRun.config.name} at thread: ${threadID} | Processing time: ${Date.now() - timeStart}ms`);
+                    }
                 } catch (error) {
-                    logger(global.getText('handleEvent', 'eventError', eventRun.config.name, JSON.stringify(error)), "error");
+                    // handleEvent.eventError=Having some error when executing event %1, error: %2
+                    console.error(`Having some error when executing event ${eventRun.config.name}, error: ${JSON.stringify(error)}`);
                 }
             }
         }
