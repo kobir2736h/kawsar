@@ -39,6 +39,7 @@
   "canvas": "^3.2.0",
   "chalk": "^4.1.2",
   "express": "^5.2.1",
+  "@dongdev/fca-unofficial": "^2.0.32",
   "fca-priyansh": "^21.0.0",
   "fs-extra": "^11.1.0",
 

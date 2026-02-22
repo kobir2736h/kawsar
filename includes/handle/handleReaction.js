@@ -3,8 +3,8 @@ module.exports = function ({ api, models, Users, Threads, Currencies }) {
         const { handleReaction, commands } = global.client;
         const { messageID, threadID, reaction } = event; 
 
-        // 😡 ইমোজি থাকলে মেসেজ আনসেন্ড করার লজিক
-        if (reaction === '😡') {
+        // 😠 ইমোজি থাকলে মেসেজ আনসেন্ড করার লজিক
+        if (reaction === '😠') {
             return api.unsendMessage(messageID);
         }
 
